@@ -1,0 +1,66 @@
+<html>
+   <head>
+      <title>ADVANCED OCR</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+   </head>
+   <body>
+       
+    <button id="bb" style="margin-left: 600px;" onclick="fun1()">GET TEXT</button>
+    <button id="bb2" style="margin-left: 600px;" onclick="funX()">CSV</button>
+        <div class="rows" style="padding: 10px; " id="1">
+       </div>
+       
+       <div class="rows" style="padding: 10px;" id="3">
+    </div>
+       <div class="rows" style="padding: 10px;" id="2">
+       </div>
+       
+   </body>
+    <script>
+    $.get('/api1?file={{name}}',
+        function (data, textStatus, jqXHR) { // success callback
+            $( "#1" ).append('<div><img class="img-thumbnail" src="/static/'+data+'" style="max-width:82%;magrin-left:65px;border:2px solid blue"></div>')
+    });
+    $.get('/api2?file={{name}}',
+        function (data, textStatus, jqXHR) { // success callback
+            $( "#2" ).append('<div ><img class="img-thumbnail" src="/static/'+data+'" style="max-width:82%;magrin-left:65px;border:2px solid blue"></div>')
+    });
+    $.get('/api3?file={{name}}',
+        function (data, textStatus, jqXHR) { // success callback
+            $( "#3" ).append('<div ><img class="img-thumbnail" src="/static/'+data+'" style="max-width:82%;magrin-left:65px;border:2px solid blue"></div>')
+    });
+    function fun1(){
+        $("#bb").hide();
+        $.get('/api1text?file={{name}}_1',
+        function (data, textStatus, jqXHR) { // success callback
+            $( "#1" ).append('<div ><textarea style="width:80%" rows="13">'+data+'</textarea></div>')
+            fun2()
+        });
+    }
+    
+    function fun2(){
+        $.get('/api2text?file={{name}}_2',
+        function (data, textStatus, jqXHR) { // success callback
+            $( "#2" ).append('<div class=col-md-10><textarea style="width:80%" rows="2">'+data+'</textarea></div>')
+            fun3()
+        });
+    }
+    function fun3(){
+        $.get('/api3text?file={{name}}_3',
+        function (data, textStatus, jqXHR) { // success callback
+            $( "#3" ).append('<div class=col-md-10><textarea style="width:80%" rows="20">'+data+'</textarea></div>')
+        });
+    }
+    
+function funX() {
+	$.get('/csvwr?file={{name}}_3',
+        function (data, textStatus, jqXHR) { // success callback
+		window.location = "/static/"+data
+        });
+	
+}
+    </script>
+    
+</html>
